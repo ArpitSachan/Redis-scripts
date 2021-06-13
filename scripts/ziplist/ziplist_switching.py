@@ -14,13 +14,11 @@
     structure when the current limit for that Redis data type is reached.
 """
 
-
-import redis
-import settings
+from redis_conn import redis_conn
 
 
 def run():
-    redis_conn = _get_redis_connection()
+    redis_conn = redis_conn._get_redis_connection()
     _dynamic_encoding_switch(redis_conn)
 
 
@@ -31,6 +29,3 @@ def _dynamic_encoding_switch(redis_conn):
             debug = redis_conn.debug_object('test-hash')
             print('Count: {} Length: {} Encoding: {}'.format(i, debug.get('serializedlength'), debug.get('encoding')))
 
-
-def _get_redis_connection():
-    return redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT)
